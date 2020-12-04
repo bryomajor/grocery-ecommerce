@@ -18,7 +18,8 @@ class ProductsController extends Controller
     public function index()
     {
         $products=Product::all();
-        return view('products.index')->with('products', $products);
+        $categories = Category::orderBy('name', 'asc')->get();
+        return view('products.index')->with(compact('products', 'categories'));
     }
 
     /**
@@ -68,6 +69,7 @@ class ProductsController extends Controller
         $product->price=$request->input('price');
         $product->desc=$request->input('desc');
         $product->product_image=$fileNameToStore;
+        $product->category_id = $request->input('category');
         $product->save();
 
         return redirect('/products')->with('success', 'Product added successfully');
@@ -94,7 +96,8 @@ class ProductsController extends Controller
     public function edit($id)
     {
         $product=Product::find($id);
-        return view('products.edit')->with('product', $product);
+        $categories = Category::all()->pluck('name', 'id')->toArray();
+        return view('products.edit')->with(compact('product','categories'));
     }
 
     /**
@@ -110,7 +113,8 @@ class ProductsController extends Controller
             'name'=>'required',
             'price'=>'required',
             'desc'=>'required',
-            'product_image'=>'image|required|max:1999'
+            'category' => 'required',
+            'product_image'=>'image|nullable|max:1999'
         ]);
 
 
@@ -132,6 +136,7 @@ class ProductsController extends Controller
         $product->name=$request->input('name');
         $product->price=$request->input('price');
         $product->desc=$request->input('desc');
+        $product->category_id = $request->input('category');
 
         if($request->hasFile('product_image')){
             $product->product_image=$fileNameToStore;

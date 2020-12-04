@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/about','PageController@about');
 Route::resource('products', 'ProductsController');
+Route::resource('categories', 'CategoryController');
 
 Route::get('/checkout', 'PageController@checkout')->name('checkout');
 Auth::routes();

@@ -13,7 +13,7 @@
     </div>
     <div class="form-group">
         {{Form::label('desc', 'Description')}}
-        {{Form::textarea('desc', '', ['class'=>'formcontrol', 'placeholder'=>'Product description'])}}
+        {{Form::textarea('desc', '', ['class'=>'form-control', 'placeholder'=>'Product description'])}}
     </div>
     <div class="form-group">
         {{Form::file('product_image')}}

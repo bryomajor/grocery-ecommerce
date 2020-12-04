@@ -13,7 +13,11 @@
     </div>
     <div class="form-group">
         {{Form::label('desc', 'Description')}}
-        {{Form::textarea('desc', $product->desc, ['class'=>'formcontrol', 'placeholder'=>'Product description'])}}
+        {{Form::textarea('desc', $product->desc, ['class'=>'form-control', 'placeholder'=>'Product description'])}}
+    </div>
+    <div class="form-group">
+        {{ Form::label('category', 'Category') }}
+        {{ Form::select('category', $categories, $product->category_id, ['class' => 'form-control', 'placeholder' => 'Pick a category...'])}}
     </div>
     <div class="form-group">
         {{Form::file('product_image')}}
