@@ -14,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('created_at', 'desc')->get();
         return view('categories.index')->with('categories', $categories);
     }
 
@@ -37,11 +37,11 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'category' => 'required'
+            'name' => 'required'
         ]);
 
         $category = new Category;
-        $category->name = $request->input('category');
+        $category->name = $request->input('name');
         $category->save();
 
         return redirect('categories')->with('success', 'Category created successfully!');
@@ -56,7 +56,6 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category = Category::find($id);
-        // dd($category);
         return redirect('/categories');
     }
 
