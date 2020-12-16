@@ -8,6 +8,22 @@
         {{Form::text('name', $product->name, ['class' => 'form-control', 'placeholder'=>'Product name'])}}
     </div>
     <div class="form-group">
+        {{ Form::label('', 'Has Flavor?', ['class' => 'font-weight-bold']) }}
+        @foreach($flavors as $flavor)
+            {{ Form::label('flavors[]', $flavor->name, ['class' => 'ml-3']) }}
+            {{ Form::checkbox('flavors[]', $flavor->id, '', ['class' => 'ml-1']) }}
+        @endforeach
+        <a href="{{url('/flavors')}}" class="btn btn-sm btn-dark ml-5">Add Flavor</a>
+    </div>
+    <div class="form-group">
+        {{ Form::label('', 'Has Size?', ['class' => 'font-weight-bold']) }}
+        @foreach($measurements as $measurement)
+            {{ Form::label('measurements[]', $measurement->name, ['class' => 'ml-3']) }}
+            {{ Form::checkbox('measurements[]', $measurement->id, '', ['class' => 'ml-1']) }}
+        @endforeach
+        <a href="{{url('/measurements')}}" class="btn btn-sm btn-dark ml-5">Size</a>
+    </div>
+    <div class="form-group">
         {{Form::label('price', 'Price')}}
         {{Form::number('price', $product->price, ['class'=>'form-control', 'placeholder'=>'Product price'])}}
     </div>
@@ -17,7 +33,7 @@
     </div>
     <div class="form-group">
         {{ Form::label('category', 'Category') }}
-        {{ Form::select('category', $categories, $product->category_id, ['class' => 'form-control', 'placeholder' => 'Pick a category...'])}}
+        {{ Form::select('category', $categories, $product->category_id, ['class' => 'form-control'])}}
     </div>
     <div class="form-group">
         {{Form::file('product_image')}}

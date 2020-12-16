@@ -2,7 +2,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Checkout</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item">Cart</li>
+            <li class="breadcrumb-item active">Checkout</li>
+        </ol>
+    </nav>
     <div class="row">
         <div class="col-md-5 mx-auto jumbotron">
             <p><small>Make payment to complete order.</small></p>

@@ -10,11 +10,11 @@ class Product extends Model
         return $this->belongsTo('App\Category');
     }
 
-    public function flavor(){
-        return $this->belongsTo('App\Flavor');
+    public function flavors(){
+        return $this->belongsToMany('App\Flavor');
     }
 
-    public function measurement(){
-        return $this->belongsTo('App\Measurement');
+    public function measurements(){
+        return $this->belongsToMany('App\Measurement');
     }
 }

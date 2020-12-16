@@ -13,17 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', 'PageController@index');
+Route::resource('products', 'ProductsController')->middleware('auth');
 
 Route::get('/about','PageController@about');
-Route::resource('products', 'ProductsController');
 Route::resource('categories', 'CategoryController');
+Route::resource('flavors', 'FlavorController');
+Route::resource('measurements', 'MeasurementController');
 
-Route::get('/checkout', 'PageController@checkout')->name('checkout');
+Route::get('/checkout', 'PageController@checkout')->name('checkout')->middleware('auth');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/shop', 'CartController@shop')->name('shop');
+Route::get('/', 'CartController@shop')->name('shop');
 Route::get('/cart', 'CartController@cart')->name('cart.index');
 Route::post('/add', 'CartController@add')->name('cart.store');
 Route::post('/update', 'CartController@update')->name('cart.update');

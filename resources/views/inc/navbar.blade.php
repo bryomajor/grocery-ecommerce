@@ -10,9 +10,24 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                <a href="{{route('shop')}}" class="nav-link">SHOP</a>
-                </li>
+                @if(!Auth::guest() && Auth::user()->is_admin)
+                    <li class="nav-item">
+                        <a href="{{route('products.index')}}" class="nav-link">All Products</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Attributes
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="{{route('flavors.index')}}" class="dropdown-item">Flavors</a>
+                            <a href="{{route('measurements.index')}}" class="dropdown-item">Sizes</a>
+                        </div>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a href="{{route('products.create')}}" class="nav-link btn btn-sm btn-success">Add Product</a>
+                    </li>
+                @endif
             </ul>
 
             <!-- Right Side Of Navbar -->

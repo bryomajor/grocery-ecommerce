@@ -27,9 +27,8 @@
                 @include('inc.messages')
                 @yield('content')
             </main>
-
         </div>
-
+        @include('inc.footer')
     </div>
 </body>
 </html>

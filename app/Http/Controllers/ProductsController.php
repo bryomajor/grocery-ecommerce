@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use App\Product;
 use App\Category;
+use App\Flavor;
+use App\Measurement;
 use App\User;
 
 class ProductsController extends Controller
@@ -17,9 +20,12 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products=Product::all();
+        if (!Auth::user()->is_admin) {
+            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
+        }
+
         $categories = Category::orderBy('name', 'asc')->get();
-        return view('products.index')->with(compact('products', 'categories'));
+        return view('products.index')->with('categories', $categories);
     }
 
     /**
@@ -29,9 +35,14 @@ class ProductsController extends Controller
      */
     public function create()
     {
+        if (!Auth::user()->is_admin) {
+            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
+        }
         // get all categories
         $categories = Category::all()->pluck('name', 'id')->toArray();
-        return view('products.create')->with('categories', $categories);
+        $flavors = Flavor::all();
+        $measurements = Measurement::all();
+        return view('products.create')->with(compact('categories', 'flavors', 'measurements'));
     }
 
     /**
@@ -42,12 +53,18 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Auth::user()->is_admin) {
+            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
+        }
+
         $this->validate($request, [
             'name'=>'required',
             'price'=>'required',
             'desc'=>'required',
             'product_image'=>'image|required|max:1999',
-            'category'=>'nullable'
+            'category'=> 'required',
+            'flavors' => 'nullable',
+            'measurements' => 'nullable'
         ]);
 
         // handle file upload
@@ -72,6 +89,13 @@ class ProductsController extends Controller
         $product->category_id = $request->input('category');
         $product->save();
 
+        $flavors = Flavor::find($request->input('flavors'));
+        $product->flavors()->attach($flavors);
+
+        $measurements = Measurement::find($request->input('measurements'));
+        $product->measurements()->attach($measurements);
+
+
         return redirect('/products')->with('success', 'Product added successfully');
     }
 
@@ -83,8 +107,12 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-       $product=Product::find($id);
-       return view('products.show')->with(compact('product'));
+        if (!Auth::user()->is_admin) {
+            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
+        }
+
+        $product=Product::find($id);
+        return view('products.show')->with(compact('product'));
     }
 
     /**
@@ -95,9 +123,16 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
+        if (!Auth::user()->is_admin) {
+            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
+        }
+
         $product=Product::find($id);
         $categories = Category::all()->pluck('name', 'id')->toArray();
-        return view('products.edit')->with(compact('product','categories'));
+        $flavors = Flavor::all();
+        $measurements = Measurement::all();
+
+        return view('products.edit')->with(compact('product', 'categories', 'flavors', 'measurements'));
     }
 
     /**
@@ -109,11 +144,17 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (!Auth::user()->is_admin) {
+            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
+        }
+
         $this->validate($request, [
             'name'=>'required',
             'price'=>'required',
             'desc'=>'required',
             'category' => 'required',
+            'flavors' => 'nullable',
+            'measurements' => 'nullable',
             'product_image'=>'image|nullable|max:1999'
         ]);
 
@@ -143,6 +184,16 @@ class ProductsController extends Controller
         }
         $product->save();
 
+        // Detach and re-attach flavors
+        $product->flavors()->detach($product->flavors->pluck('id')->toArray());
+        $flavors = Flavor::find($request->input('flavors'));
+        $product->flavors()->attach($flavors);
+
+        // Detach and re-attach measurements
+        $product->measurements()->detach($product->measurements->pluck('id')->toArray());
+        $measurements = Measurement::find($request->input('measurements'));
+        $product->measurements()->attach($measurements);
+
         return redirect('/products')->with('success', 'Product edited successfully!');
     }
 
@@ -154,6 +205,10 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
+        if (!Auth::user()->is_admin) {
+            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
+        }
+        
         $product=Product::find($id);
         Storage::delete('public/product_images/'.$product->product_image);
         $product->delete();

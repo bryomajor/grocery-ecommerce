@@ -15,17 +15,23 @@
                     <h4>{{\Cart::getTotalQuantity()}} Product(s) In Your Cart</h4><br>
                 @else
                     <h4>No Product(s) In Your Cart</h4><br>
-                    <a href="" class="btn btn-dark">Continue Shopping</a>
+                    <a href="{{url('/')}}" class="btn btn-dark">Continue Shopping</a>
                 @endif
 
                 @foreach($cartCollection as $item)
                     <div class="row">
                         <div class="col-md-3">
-                            <img src="" alt="" class="img-thumbnail">
+                            <img src="{{url('storage/product_images/'.$item->attributes->image)}}" alt="" class="img-thumbnail">
                         </div>
                         <div class="col-md-5">
                             <p>
                                 <b><a href="#">{{$item->name}}</a></b><br>
+                                @if($item->attributes->measurement)
+                                    <b>Size: </b>{{$item->attributes->measurement}}<br>
+                                @endif
+                                @if($item->attributes->flavor)
+                                <b>Flavor: </b>{{$item->attributes->flavor}}<br>
+                                @endif
                                 <b>Price: </b>Ksh. {{$item->price}} <br>
                                 <b>Sub Total: </b>Ksh. {{Cart::get($item->id)->getPriceSum()}} <br>
                             </p>
@@ -64,7 +70,7 @@
                             <li class="list-group-item"><b>Total: </b>Ksh. {{\Cart::getTotal()}}</li>
                         </ul>
                     </div><br>
-                    <a href="" class="btn btn-dark">Continue Shopping</a>
+                    <a href="{{url('/')}}" class="btn btn-dark">Continue Shopping</a>
                     <a href="{{url('/checkout')}}" class="btn btn-success">Proceed to Checkout</a>
                 </div>
             @endif

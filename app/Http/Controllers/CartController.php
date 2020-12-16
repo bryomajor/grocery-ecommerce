@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Product;
+use App\Category;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
     public function shop() {
-        $products = Product::all();
-        return view('shop')->with(['products' => $products]);
+        $categories = Category::orderBy('name', 'asc')->get();
+        return view('shop')->with(['categories' => $categories]);
     }
 
     public function cart() {
@@ -22,7 +22,11 @@ class CartController extends Controller
             'name' => $request->name,
             'price' => $request->price,
             'quantity' => $request->quantity,
-            'image' => $request->img
+            'attributes' => [
+                'flavor' => $request->flavor,
+                'measurement' => $request->measurement,
+                'image' => $request->img
+            ]
         ));
         return redirect()->route('cart.index')->with('success', 'Item is added to cart!');
     }

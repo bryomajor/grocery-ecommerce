@@ -3,7 +3,7 @@
         <li class="list-group-item">
             <div class="row">
                 <div class="col-md-3">
-                    <img src="{{url('/storage/product_images/'.$item->product_image)}}" alt="" class="img-responsive">
+                    <img src="{{url('/storage/product_images/'.$item->attributes->image)}}" alt="" class="img-fluid">
                 </div>
                 <div class="col-md-6">
                     <b>{{$item->name}}</b><br>
@@ -35,7 +35,7 @@
         <a href="{{route('cart.index')}}" class="btn btn-dark btn-sm btn-block">
             CART
         </a>
-        <a href="" class="btn btn-dark btn-sm btn-block">
+        <a href="{{route('checkout')}}" class="btn btn-dark btn-sm btn-block">
             CHECKOUT
         </a>
     </div>
