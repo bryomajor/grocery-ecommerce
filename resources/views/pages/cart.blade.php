@@ -9,7 +9,7 @@
             </ol>
         </nav>
         <div class="row justify-content-center">
-            <div class="col-md-7">
+            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
                 <br>
                 @if(\Cart::getTotalQuantity()>0)
                     <h4>{{\Cart::getTotalQuantity()}} Product(s) In Your Cart</h4><br>
@@ -20,10 +20,10 @@
 
                 @foreach($cartCollection as $item)
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                             <img src="{{url('storage/product_images/'.$item->attributes->image)}}" alt="" class="img-thumbnail">
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                             <p>
                                 <b><a href="#">{{$item->name}}</a></b><br>
                                 @if($item->attributes->measurement)
@@ -36,8 +36,7 @@
                                 <b>Sub Total: </b>Ksh. {{Cart::get($item->id)->getPriceSum()}} <br>
                             </p>
                         </div>
-                        <div class="col-md-4">
-                            <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <form action="{{route('cart.update')}}" method="POST">
                                     {{csrf_field()}}
                                     <div class="form-group row">
@@ -51,7 +50,6 @@
                                     <input type="hidden" value="{{$item->id}}" id="id" name="id">
                                     <button class="btn btn-dark btn-sm">Remove</button>
                                 </form>
-                            </div>
                         </div>
                     </div>
                     <hr>
@@ -64,7 +62,7 @@
                 @endif
             </div>
             @if(count($cartCollection)>0)
-                <div class="col-md-5">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                     <div class="card">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><b>Total: </b>Ksh. {{\Cart::getTotal()}}</li>

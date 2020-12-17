@@ -13,14 +13,18 @@ class MeasurementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    private function is_admin()
     {
         if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
+            return redirect()->route('shop')->with('error', 'You need admin rights to perform this operation')->throwResponse();
         }
+    }
 
+    public function index()
+    {
+        $this->is_admin();
         $measurements = Measurement::orderBy('created_at', 'desc')->get();
-        return view('measurements.index')->with('measurements', $measurements);
+        return view('admin.measurements.index')->with('measurements', $measurements);
     }
 
     /**
@@ -41,10 +45,7 @@ class MeasurementController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
-
+        $this->is_admin();
         $this->validate($request, [
             'name' => 'required'
         ]);
@@ -75,12 +76,9 @@ class MeasurementController extends Controller
      */
     public function edit($id)
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
-
+        $this->is_admin();
         $measurement = Measurement::find($id);
-        return view('measurements.edit')->with('measurement', $measurement);
+        return view('admin.measurements.edit')->with('measurement', $measurement);
     }
 
     /**
@@ -92,10 +90,7 @@ class MeasurementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
-
+        $this->is_admin();
         $measurement = Measurement::find($id);
         $measurement->name = $request->input('name');
         $measurement->save();
@@ -111,10 +106,7 @@ class MeasurementController extends Controller
      */
     public function destroy($id)
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
-        
+        $this->is_admin();
         $measurement = Measurement::find($id);
         $measurement->delete();
 

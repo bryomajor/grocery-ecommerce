@@ -20,6 +20,7 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right">
+                            <a href="{{route('categories.index')}}" class="dropdown-item">Categories</a>
                             <a href="{{route('flavors.index')}}" class="dropdown-item">Flavors</a>
                             <a href="{{route('measurements.index')}}" class="dropdown-item">Sizes</a>
                         </div>

@@ -18,14 +18,17 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    private function is_admin() {
+        if (!Auth::user()->is_admin) {
+            return redirect()->route('shop')->with('error', 'You need admin rights to perform this operation!')->throwResponse();
+        }
+    }
+
     public function index()
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
-
+        $this->is_admin();
         $categories = Category::orderBy('name', 'asc')->get();
-        return view('products.index')->with('categories', $categories);
+        return view('admin.products.index')->with('categories', $categories);
     }
 
     /**
@@ -35,14 +38,12 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
+        $this->is_admin();
         // get all categories
         $categories = Category::all()->pluck('name', 'id')->toArray();
         $flavors = Flavor::all();
         $measurements = Measurement::all();
-        return view('products.create')->with(compact('categories', 'flavors', 'measurements'));
+        return view('admin.products.create')->with(compact('categories', 'flavors', 'measurements'));
     }
 
     /**
@@ -53,10 +54,7 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
-
+        $this->is_admin();
         $this->validate($request, [
             'name'=>'required',
             'price'=>'required',
@@ -107,12 +105,9 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
-
+        $this->is_admin();
         $product=Product::find($id);
-        return view('products.show')->with(compact('product'));
+        return view('admin.products.show')->with(compact('product'));
     }
 
     /**
@@ -123,16 +118,13 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
-
+        $this->is_admin();
         $product=Product::find($id);
         $categories = Category::all()->pluck('name', 'id')->toArray();
         $flavors = Flavor::all();
         $measurements = Measurement::all();
 
-        return view('products.edit')->with(compact('product', 'categories', 'flavors', 'measurements'));
+        return view('admin.products.edit')->with(compact('product', 'categories', 'flavors', 'measurements'));
     }
 
     /**
@@ -144,10 +136,7 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
-
+        $this->is_admin();
         $this->validate($request, [
             'name'=>'required',
             'price'=>'required',
@@ -205,10 +194,7 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
-        
+        $this->is_admin();
         $product=Product::find($id);
         Storage::delete('public/product_images/'.$product->product_image);
         $product->delete();

@@ -10,7 +10,7 @@
         </ol>
     </nav>
     <div class="row">
-        <div class="col-md-5 mx-auto jumbotron">
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 mx-auto jumbotron">
             <p><small>Make payment to complete order.</small></p>
             <h4>How to Pay</h4>
             <ol>

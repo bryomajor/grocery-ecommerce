@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,15 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth::routes();
 Route::resource('products', 'ProductsController')->middleware('auth');
-
-Route::get('/about','PageController@about');
-Route::resource('categories', 'CategoryController');
-Route::resource('flavors', 'FlavorController');
-Route::resource('measurements', 'MeasurementController');
+Route::resource('categories', 'CategoryController')->middleware('auth');
+Route::resource('flavors', 'FlavorController')->middleware('auth');
+Route::resource('measurements', 'MeasurementController')->middleware('auth');
 
 Route::get('/checkout', 'PageController@checkout')->name('checkout')->middleware('auth');
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'CartController@shop')->name('shop');

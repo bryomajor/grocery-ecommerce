@@ -3,9 +3,9 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
                     <h5>Products In Our Store</h5>
                 </div>
             </div>
@@ -15,7 +15,7 @@
                     <h4 class="mt-5">{{$category->name}}</h4>
                     <div class="row pb-3">
                         @foreach($category->products->sortBy('desc') as $product)
-                            <div class="col-md-3 mt-5">
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-5">
                                 <div class="card bg-transparent align-items-center text-center">
                                     <img src="{{url('/storage/product_images/'.$product->product_image)}}" alt="product image" class="rounded-circle img-fluid">
                                     <div class="card-body">

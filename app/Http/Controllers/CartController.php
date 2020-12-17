@@ -8,12 +8,12 @@ class CartController extends Controller
 {
     public function shop() {
         $categories = Category::orderBy('name', 'asc')->get();
-        return view('shop')->with(['categories' => $categories]);
+        return view('pages.shop')->with(['categories' => $categories]);
     }
 
     public function cart() {
         $cartCollection = \Cart::getContent();
-        return view('cart')->with('cartCollection', $cartCollection);
+        return view('pages.cart')->with('cartCollection', $cartCollection);
     }
 
     public function add(Request $request) {
@@ -49,7 +49,7 @@ class CartController extends Controller
 
     public function clear() {
         \Cart::clear();
-        return redirect()->route('shop')->with('success', 'Cart is cleared!');
+        return redirect()->route('pages.shop')->with('success', 'Cart is cleared!');
     }
 
 

@@ -13,14 +13,17 @@ class FlavorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    private function is_admin() {
+        if (!Auth::user()->is_admin) {
+            return redirect()->route('shop')->with('error', 'You need admin rights to perform this operation!')->throwResponse();
+        }
+    }
+
     public function index()
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
-
+        $this->is_admin();
         $flavors = Flavor::all();
-        return view('flavors.index')->with('flavors', $flavors);
+        return view('admin.flavors.index')->with('flavors', $flavors);
     }
 
     /**
@@ -41,10 +44,7 @@ class FlavorController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
-
+        $this->is_admin();
         $this->validate($request, [
             'name' => 'required'
         ]);
@@ -75,12 +75,9 @@ class FlavorController extends Controller
      */
     public function edit($id)
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
-
+        $this->is_admin();
         $flavor = Flavor::find($id);
-        return view('flavors.edit')->with('flavor', $flavor);
+        return view('admin.flavors.edit')->with('flavor', $flavor);
     }
 
     /**
@@ -92,10 +89,7 @@ class FlavorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
-
+        $this->is_admin();
         $this->validate($request, [
             'name' => 'required'
         ]);
@@ -115,10 +109,7 @@ class FlavorController extends Controller
      */
     public function destroy($id)
     {
-        if (!Auth::user()->is_admin) {
-            return redirect('/')->with('error', 'You need admin priviledges to perform this operation!');
-        }
-        
+        $this->is_admin();
         $flavor = Flavor::find($id);
         $flavor->delete();
 

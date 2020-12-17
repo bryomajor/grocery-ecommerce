@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Category;
 
 class CategoryController extends Controller
@@ -12,10 +13,17 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    private function is_admin() {
+        if (!Auth::user()->is_admin) {
+            return redirect()->route('shop')->with('error', 'You need admin rights to perform this operation!')->throwResponse();
+        }
+    }
+
     public function index()
     {
+        $this->is_admin();
         $categories = Category::orderBy('created_at', 'desc')->get();
-        return view('categories.index')->with('categories', $categories);
+        return view('admin.categories.index')->with('categories', $categories);
     }
 
     /**
@@ -25,7 +33,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        // return view('categories.create');
+        //
     }
 
     /**
@@ -36,6 +44,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->is_admin();
         $this->validate($request, [
             'name' => 'required'
         ]);
@@ -55,6 +64,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
+        $this->is_admin();
         $category = Category::find($id);
         return redirect('/categories');
     }
@@ -67,8 +77,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        $this->is_admin();
         $category = Category::find($id);
-        return view('categories.edit')->with('category', $category);
+        return view('admin.categories.edit')->with('category', $category);
     }
 
     /**
@@ -80,6 +91,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->is_admin();
         $this->validate($request, [
             'name' => 'required'
         ]);
@@ -99,7 +111,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-
+        $this->is_admin();
         $category = Category::find($id);
         $category->delete();
 

@@ -21,7 +21,7 @@
         <div class="col-md-2"></div>
         <div class="col-md-4">
             <h4>Create Category</h4>
-            @include('categories.create')
+            @include('admin.categories.create')
         </div>
     </div>
 @endsection
