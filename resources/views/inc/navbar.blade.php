@@ -40,8 +40,8 @@
                         </span>
                     </a>
 
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <ul class="list-group">
+                    <div class="dropdown-menu dropdown-menu-right" style="width: 450px;">
+                        <ul class="list-group m-4">
                             @include('inc.cart-drop')
                         </ul>
                     </div>

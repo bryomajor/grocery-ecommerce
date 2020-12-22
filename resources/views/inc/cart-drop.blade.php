@@ -19,7 +19,7 @@
     <br>
     <li class="list-group-item">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-9">
                 <b>Total: </b>Ksh. {{\Cart::getTotal()}}
             </div>
             <div class="col-md-2">
@@ -31,7 +31,7 @@
         </div>
     </li>
     <br>
-    <div class="row">
+    <div class="row m-0">
         <a href="{{route('cart.index')}}" class="btn btn-dark btn-sm btn-block">
             CART
         </a>
