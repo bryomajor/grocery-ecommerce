@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,16 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', 'PageController@index');
-
-Route::get('/about','PageController@about');
-Route::resource('products', 'ProductsController');
-
-Route::get('/checkout', 'PageController@checkout')->name('checkout');
 Auth::routes();
+Route::resource('products', 'ProductsController')->middleware('auth');
+Route::resource('categories', 'CategoryController')->middleware('auth');
+Route::resource('flavors', 'FlavorController')->middleware('auth');
+Route::resource('measurements', 'MeasurementController')->middleware('auth');
+
+Route::get('/checkout', 'PageController@checkout')->name('checkout')->middleware('auth');
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/shop', 'CartController@shop')->name('shop');
+Route::get('/', 'CartController@shop')->name('shop');
 Route::get('/cart', 'CartController@cart')->name('cart.index');
 Route::post('/add', 'CartController@add')->name('cart.store');
 Route::post('/update', 'CartController@update')->name('cart.update');

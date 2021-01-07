@@ -3,7 +3,7 @@
         <li class="list-group-item">
             <div class="row">
                 <div class="col-md-3">
-                    <img src="{{url('/storage/product_images/'.$item->product_image)}}" alt="" class="img-responsive">
+                    <img src="{{url('/storage/product_images/'.$item->attributes->image)}}" alt="" class="img-fluid">
                 </div>
                 <div class="col-md-6">
                     <b>{{$item->name}}</b><br>
@@ -25,18 +25,18 @@
             <div class="col-md-2">
                 <form action="{{route('cart.clear')}}" method="POST">
                     {{csrf_field()}}
-                    <button class="btn btn-secondary btn-sm">Remove</button>
+                    <button class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></button>
                 </form>
             </div>
         </div>
     </li>
     <br>
-    <div class="row">
+    <div class="row m-0">
         <a href="{{route('cart.index')}}" class="btn btn-dark btn-sm btn-block">
-            CART
+            CART <i class="fa fa-arrow-right"></i>
         </a>
-        <a href="" class="btn btn-dark btn-sm btn-block">
-            CHECKOUT
+        <a href="{{route('checkout')}}" class="btn btn-dark btn-sm btn-block">
+            CHECKOUT <i class="fa fa-arrow-right"></i>
         </a>
     </div>
 @else

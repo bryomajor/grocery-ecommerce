@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Measurement extends Model
 {
-    private function products(){
-        return $this->hasMany('App\Product');
+    public function products(){
+        return $this->belongsToMany('App\Product');
     }
 }

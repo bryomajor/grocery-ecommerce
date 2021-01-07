@@ -1,18 +1,36 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+<nav class="navbar navbar-expand-md navbar-light fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
-            {{ config('app.name', 'Nairobi Groceries Store') }}
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#bs-example-navbar-collapse-1" aria-expanded="false"
+              aria-controls="bs-example-navbar-collapse-1" aria-label="
+              Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+            <a class="navbar-brand" href="{{url('/')}}"><img src="{{url('/images/logo.png')}}" height="50"
+                alt="Nairogrocers" /></a>
+          </div>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                <a href="{{route('shop')}}" class="nav-link">SHOP</a>
-                </li>
+                @if(!Auth::guest() && Auth::user()->is_admin)
+                    <li class="nav-item">
+                        <a href="{{route('products.index')}}" class="nav-link">All Products</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Attributes
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="{{route('categories.index')}}" class="dropdown-item">Categories</a>
+                            <a href="{{route('flavors.index')}}" class="dropdown-item">Flavors</a>
+                            <a href="{{route('measurements.index')}}" class="dropdown-item">Sizes</a>
+                        </div>
+                    </li>
+                    <li class="nav-item ml-3">
+                        <a href="{{route('products.create')}}" class="nav-link btn btn-sm btn-success">Add Product</a>
+                    </li>
+                @endif
             </ul>
 
             <!-- Right Side Of Navbar -->
@@ -20,12 +38,12 @@
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="badge badge-pill badge-dark">
-                            {{\Cart::getTotalQuantity()}}
+                            <i class="fa fa-shopping-cart"></i> {{\Cart::getTotalQuantity()}}
                         </span>
                     </a>
 
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <ul class="list-group">
+                    <div class="dropdown-menu dropdown-menu-right" style="width: 450px;">
+                        <ul class="list-group m-4">
                             @include('inc.cart-drop')
                         </ul>
                     </div>

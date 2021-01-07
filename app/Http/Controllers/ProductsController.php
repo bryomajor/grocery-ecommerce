@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use App\Product;
 use App\Category;
+use App\Flavor;
+use App\Measurement;
 use App\User;
 
 class ProductsController extends Controller
@@ -15,10 +18,17 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    private function is_admin() {
+        if (!Auth::user()->is_admin) {
+            return redirect()->route('shop')->with('error', 'You need admin rights to perform this operation!')->throwResponse();
+        }
+    }
+
     public function index()
     {
-        $products=Product::all();
-        return view('products.index')->with('products', $products);
+        $this->is_admin();
+        $categories = Category::orderBy('name', 'asc')->get();
+        return view('admin.products.index')->with('categories', $categories);
     }
 
     /**
@@ -28,9 +38,12 @@ class ProductsController extends Controller
      */
     public function create()
     {
+        $this->is_admin();
         // get all categories
         $categories = Category::all()->pluck('name', 'id')->toArray();
-        return view('products.create')->with('categories', $categories);
+        $flavors = Flavor::all();
+        $measurements = Measurement::all();
+        return view('admin.products.create')->with(compact('categories', 'flavors', 'measurements'));
     }
 
     /**
@@ -41,12 +54,15 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->is_admin();
         $this->validate($request, [
             'name'=>'required',
             'price'=>'required',
             'desc'=>'required',
             'product_image'=>'image|required|max:1999',
-            'category'=>'nullable'
+            'category'=> 'required',
+            'flavors' => 'nullable',
+            'measurements' => 'nullable'
         ]);
 
         // handle file upload
@@ -68,7 +84,15 @@ class ProductsController extends Controller
         $product->price=$request->input('price');
         $product->desc=$request->input('desc');
         $product->product_image=$fileNameToStore;
+        $product->category_id = $request->input('category');
         $product->save();
+
+        $flavors = Flavor::find($request->input('flavors'));
+        $product->flavors()->attach($flavors);
+
+        $measurements = Measurement::find($request->input('measurements'));
+        $product->measurements()->attach($measurements);
+
 
         return redirect('/products')->with('success', 'Product added successfully');
     }
@@ -81,8 +105,9 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-       $product=Product::find($id);
-       return view('products.show')->with(compact('product'));
+        $this->is_admin();
+        $product=Product::find($id);
+        return view('admin.products.show')->with(compact('product'));
     }
 
     /**
@@ -93,8 +118,13 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
+        $this->is_admin();
         $product=Product::find($id);
-        return view('products.edit')->with('product', $product);
+        $categories = Category::all()->pluck('name', 'id')->toArray();
+        $flavors = Flavor::all();
+        $measurements = Measurement::all();
+
+        return view('admin.products.edit')->with(compact('product', 'categories', 'flavors', 'measurements'));
     }
 
     /**
@@ -106,11 +136,15 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->is_admin();
         $this->validate($request, [
             'name'=>'required',
             'price'=>'required',
             'desc'=>'required',
-            'product_image'=>'image|required|max:1999'
+            'category' => 'required',
+            'flavors' => 'nullable',
+            'measurements' => 'nullable',
+            'product_image'=>'image|nullable|max:1999'
         ]);
 
 
@@ -132,11 +166,22 @@ class ProductsController extends Controller
         $product->name=$request->input('name');
         $product->price=$request->input('price');
         $product->desc=$request->input('desc');
+        $product->category_id = $request->input('category');
 
         if($request->hasFile('product_image')){
             $product->product_image=$fileNameToStore;
         }
         $product->save();
+
+        // Detach and re-attach flavors
+        $product->flavors()->detach($product->flavors->pluck('id')->toArray());
+        $flavors = Flavor::find($request->input('flavors'));
+        $product->flavors()->attach($flavors);
+
+        // Detach and re-attach measurements
+        $product->measurements()->detach($product->measurements->pluck('id')->toArray());
+        $measurements = Measurement::find($request->input('measurements'));
+        $product->measurements()->attach($measurements);
 
         return redirect('/products')->with('success', 'Product edited successfully!');
     }
@@ -149,6 +194,7 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
+        $this->is_admin();
         $product=Product::find($id);
         Storage::delete('public/product_images/'.$product->product_image);
         $product->delete();
