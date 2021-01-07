@@ -37,7 +37,9 @@
         @include('inc.navbar')
         <div class="">
             <main class="pt-4">
-                @include('inc.messages')
+                <div class="mt-5">
+                    @include('inc.messages')
+                </div>
                 @yield('content')
             </main>
         </div>

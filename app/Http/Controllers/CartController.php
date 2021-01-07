@@ -49,7 +49,7 @@ class CartController extends Controller
 
     public function clear() {
         \Cart::clear();
-        return redirect()->route('pages.shop')->with('success', 'Cart is cleared!');
+        return redirect('/')->with('success', 'Cart is cleared!');
     }
 
 
