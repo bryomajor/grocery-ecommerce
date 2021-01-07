@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Add Product</h1>
+    <div class="container py-5">
+        <h1>Add Product</h1>
     {!! Form::open(['action' => 'ProductsController@store', 'method' => 'POST', 'enctype'=>'multipart/form-data']) !!}
     <div class="form-group">
         {{Form::label('name', 'Name')}}
@@ -40,4 +41,5 @@
     </div>
     {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
     {!! Form::close() !!}
+    </div>
 @endsection

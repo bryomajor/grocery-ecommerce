@@ -19,13 +19,13 @@
     <br>
     <li class="list-group-item">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-10">
                 <b>Total: </b>Ksh. {{\Cart::getTotal()}}
             </div>
             <div class="col-md-2">
                 <form action="{{route('cart.clear')}}" method="POST">
                     {{csrf_field()}}
-                    <button class="btn btn-secondary btn-sm">Remove</button>
+                    <button class="btn btn-secondary btn-sm"><i class="fa fa-trash"></i></button>
                 </form>
             </div>
         </div>
@@ -33,10 +33,10 @@
     <br>
     <div class="row m-0">
         <a href="{{route('cart.index')}}" class="btn btn-dark btn-sm btn-block">
-            CART
+            CART <i class="fa fa-arrow-right"></i>
         </a>
         <a href="{{route('checkout')}}" class="btn btn-dark btn-sm btn-block">
-            CHECKOUT
+            CHECKOUT <i class="fa fa-arrow-right"></i>
         </a>
     </div>
 @else

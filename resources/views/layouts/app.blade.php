@@ -18,12 +18,25 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script>
+    $(function () {
+        $(document).scroll(function () {
+        var $nav = $(".navbar");
+        $nav.toggleClass('scrolled shadow', $(this).scrollTop() > $nav.height());
+        });
+    });
+    </script>
 </head>
 <body>
     <div id="app">
         @include('inc.navbar')
-        <div class="container">
-            <main class="py-4">
+        <div class="">
+            <main class="pt-4">
                 @include('inc.messages')
                 @yield('content')
             </main>

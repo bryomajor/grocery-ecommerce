@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>All Products</h1>
+    <div class="container py-5">
+        <h1>All Products</h1>
     <div class="row">
         @if(count($categories) > 0)
             @foreach($categories as $category)
@@ -20,5 +21,6 @@
         @else
                 <p>No products to display!</p>
         @endif
+    </div>
     </div>
 @endsection

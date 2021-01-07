@@ -1,25 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
+@include('layouts.hero-section')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="row justify-content-center mt-3 text-center">
+        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8 mx-auto">
             <div class="row">
-                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                    <h5>Products In Our Store</h5>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h2 class="mt-3 font-weight-bold animate__animated animate__fadeInUp animate__delay-0.1s" id="shopnow">Products In Our Store</h2>
                 </div>
             </div>
             <hr>
             @if(count($categories) > 0)
                 @foreach ($categories as $category)
-                    <h4 class="mt-5">{{$category->name}}</h4>
-                    <div class="row pb-3">
+                    <h3 class="mt-5 font-weight-bold animate__animated animate__fadeInUp animate__delay-0.3s">{{$category->name}}</h3>
+                    <div class="row p-3">
                         @foreach($category->products->sortBy('desc') as $product)
-                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-5">
+                            <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12 mt-5">
                                 <div class="card bg-transparent align-items-center text-center">
-                                    <img src="{{url('/storage/product_images/'.$product->product_image)}}" alt="product image" class="rounded-circle img-fluid">
+                                    <img src="{{url('/storage/product_images/'.$product->product_image)}}" alt="product image" class="rounded-circle img-fluid animate__animated animate__slideInDown animate__delay-0.1s">
                                     <div class="card-body">
-                                        <h5 class="card-title">
+                                        <h5 class="card-title animate__animated animate__fadeInDown animate__delay-0.5s">
                                             {{$product->name}}
                                             @if(count($product->measurements) > 0)
                                                 ({{implode($product->measurements->pluck('name')->toArray())}})
@@ -42,7 +43,7 @@
                                             </select>
                                             @endif
                                             <button class="btn btn-warning btn-sm" title="add to cart">
-                                                Add to Cart
+                                                <i class="fa fa-shopping-cart"></i> Add to Cart
                                             </button>
                                         </form>
                                     </div>

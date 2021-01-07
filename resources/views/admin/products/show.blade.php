@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<h4 class="mb-4">Product Name: <b>{{$product->name}}</b></h4>
+    <div class="container py-5">
+        <h4 class="mb-4">Product Name: <b>{{$product->name}}</b></h4>
 <div class="row">
     <div class="col-md-8">
         <img src="{{url('storage/product_images/'.$product->product_image)}}" alt="" class="img-fluid">
@@ -16,7 +17,7 @@
         @if(count($product->flavors))
         <p><b>Flavors: </b>{{implode(', ', $product->flavors->pluck('name')->toArray())}}</p>
         @endif
-        
+
         <h5><b>Price:</b> Ksh. {{$product->price}}</h2>
         <hr>
         <p>{{$product->desc}}</p>
@@ -26,4 +27,5 @@
         <a href="{{url('products/'.$product->id.'/edit')}}" class="btn btn-primary float-right mr-3">Edit product</a>
     </div>
 </div>
+    </div>
 @endsection

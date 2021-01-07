@@ -1,11 +1,13 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+<nav class="navbar navbar-expand-md navbar-light fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
-            {{ config('app.name', 'Nairobi Groceries Store') }}
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#bs-example-navbar-collapse-1" aria-expanded="false"
+              aria-controls="bs-example-navbar-collapse-1" aria-label="
+              Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+            <a class="navbar-brand" href="{{url('/')}}"><img src="{{url('/images/logo.png')}}" height="50"
+                alt="Nairogrocers" /></a>
+          </div>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
@@ -36,7 +38,7 @@
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="badge badge-pill badge-dark">
-                            {{\Cart::getTotalQuantity()}}
+                            <i class="fa fa-shopping-cart"></i> {{\Cart::getTotalQuantity()}}
                         </span>
                     </a>
 
