@@ -16,9 +16,9 @@
                     <h3 class="mt-5 font-weight-bold animate__animated animate__fadeInUp animate__delay-0.3s">{{$category->name}}</h3>
                     <div class="row p-3">
                         @foreach($category->products->sortBy('desc') as $product)
-                            <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12 mt-5">
-                                <div class="card bg-transparent align-items-center text-center">
-                                    <img src="{{url('/storage/product_images/'.$product->product_image)}}" alt="product image" class="rounded-circle img-fluid animate__animated animate__slideInDown animate__delay-0.1s">
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 mt-5">
+                                <div class="card shadow align-items-center text-center product" >
+                                    <img src="{{url('/storage/product_images/'.$product->product_image)}}" alt="product image" class="img-fluid animate__animated animate__slideInDown animate__delay-0.1s">
                                     <div class="card-body">
                                         <h5 class="card-title animate__animated animate__fadeInDown animate__delay-0.5s">
                                             {{$product->name}}
@@ -36,7 +36,7 @@
                                             <input type="hidden" value="1" id="quantity" name="quantity">
                                             <input type="hidden" name="measurement" id="measurement" value="{{implode($product->measurements->pluck('name')->toArray())}}">
                                             @if(count($product->flavors) > 0)
-                                            <select name="flavor" id="flavor">
+                                            <select name="flavor" id="flavor" class="custom-select custom-select-sm mb-2">
                                                 @foreach($product->flavors as $flavor)
                                                     <option value="{{$flavor->name}}">{{$flavor->name}}</option>
                                                 @endforeach

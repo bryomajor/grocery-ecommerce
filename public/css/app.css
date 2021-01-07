@@ -10968,3 +10968,7 @@ main {
   /* Footer height */
 }
 
+.product {
+  min-height: 375px;
+}
+
